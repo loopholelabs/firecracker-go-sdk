@@ -19,14 +19,16 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // SnapshotLoadParams Defines the configuration used for handling snapshot resume. Exactly one of the two `mem_*` fields must be present in the body of the request.
+//
 // swagger:model SnapshotLoadParams
 type SnapshotLoadParams struct {
 
@@ -41,6 +43,9 @@ type SnapshotLoadParams struct {
 
 	// When set to true, the vm is also resumed if the snapshot load is successful.
 	ResumeVM bool `json:"resume_vm,omitempty"`
+
+	// When set to true and the guest memory backend is a file, changes to the memory are asynchronously written back to the backend as the VM is running.
+	Shared bool `json:"shared,omitempty"`
 
 	// Path to the file that contains the microVM state to be loaded.
 	// Required: true
@@ -66,7 +71,6 @@ func (m *SnapshotLoadParams) Validate(formats strfmt.Registry) error {
 }
 
 func (m *SnapshotLoadParams) validateMemBackend(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MemBackend) { // not required
 		return nil
 	}
@@ -75,6 +79,8 @@ func (m *SnapshotLoadParams) validateMemBackend(formats strfmt.Registry) error {
 		if err := m.MemBackend.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("mem_backend")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("mem_backend")
 			}
 			return err
 		}
@@ -87,6 +93,41 @@ func (m *SnapshotLoadParams) validateSnapshotPath(formats strfmt.Registry) error
 
 	if err := validate.Required("snapshot_path", "body", m.SnapshotPath); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this snapshot load params based on the context it is used
+func (m *SnapshotLoadParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMemBackend(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *SnapshotLoadParams) contextValidateMemBackend(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MemBackend != nil {
+
+		if swag.IsZero(m.MemBackend) { // not required
+			return nil
+		}
+
+		if err := m.MemBackend.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("mem_backend")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("mem_backend")
+			}
+			return err
+		}
 	}
 
 	return nil

@@ -19,21 +19,22 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Drive drive
+//
 // swagger:model Drive
 type Drive struct {
 
 	// Represents the caching strategy for the block device.
-	// Enum: [Unsafe Writeback]
+	// Enum: ["Unsafe","Writeback"]
 	CacheType *string `json:"cache_type,omitempty"`
 
 	// drive id
@@ -41,7 +42,7 @@ type Drive struct {
 	DriveID *string `json:"drive_id"`
 
 	// Type of the IO engine used by the device. "Async" is supported on host kernels newer than 5.10.51.
-	// Enum: [Sync Async]
+	// Enum: ["Sync","Async"]
 	IoEngine *string `json:"io_engine,omitempty"`
 
 	// is read only
@@ -124,14 +125,13 @@ const (
 
 // prop value enum
 func (m *Drive) validateCacheTypeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, driveTypeCacheTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, driveTypeCacheTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Drive) validateCacheType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CacheType) { // not required
 		return nil
 	}
@@ -176,14 +176,13 @@ const (
 
 // prop value enum
 func (m *Drive) validateIoEngineEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, driveTypeIoEnginePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, driveTypeIoEnginePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Drive) validateIoEngine(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IoEngine) { // not required
 		return nil
 	}
@@ -224,7 +223,6 @@ func (m *Drive) validatePathOnHost(formats strfmt.Registry) error {
 }
 
 func (m *Drive) validateRateLimiter(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RateLimiter) { // not required
 		return nil
 	}
@@ -233,6 +231,43 @@ func (m *Drive) validateRateLimiter(formats strfmt.Registry) error {
 		if err := m.RateLimiter.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rate_limiter")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rate_limiter")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this drive based on the context it is used
+func (m *Drive) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRateLimiter(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Drive) contextValidateRateLimiter(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RateLimiter != nil {
+
+		if swag.IsZero(m.RateLimiter) { // not required
+			return nil
+		}
+
+		if err := m.RateLimiter.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("rate_limiter")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rate_limiter")
 			}
 			return err
 		}

@@ -19,15 +19,14 @@ package client
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"github.com/firecracker-microvm/firecracker-go-sdk/client/operations"
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/firecracker-microvm/firecracker-go-sdk/client/operations"
 )
 
-// Default firecracker HTTP client.
+// Default firecracker API HTTP client.
 var Default = NewHTTPClient(nil)
 
 const (
@@ -42,14 +41,14 @@ const (
 // DefaultSchemes are the default schemes found in Meta (info) section of spec file
 var DefaultSchemes = []string{"http"}
 
-// NewHTTPClient creates a new firecracker HTTP client.
-func NewHTTPClient(formats strfmt.Registry) *Firecracker {
+// NewHTTPClient creates a new firecracker API HTTP client.
+func NewHTTPClient(formats strfmt.Registry) *FirecrackerAPI {
 	return NewHTTPClientWithConfig(formats, nil)
 }
 
-// NewHTTPClientWithConfig creates a new firecracker HTTP client,
+// NewHTTPClientWithConfig creates a new firecracker API HTTP client,
 // using a customizable transport config.
-func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *Firecracker {
+func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *FirecrackerAPI {
 	// ensure nullable parameters have default
 	if cfg == nil {
 		cfg = DefaultTransportConfig()
@@ -60,14 +59,14 @@ func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *Fir
 	return New(transport, formats)
 }
 
-// New creates a new firecracker client
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Firecracker {
+// New creates a new firecracker API client
+func New(transport runtime.ClientTransport, formats strfmt.Registry) *FirecrackerAPI {
 	// ensure nullable parameters have default
 	if formats == nil {
 		formats = strfmt.Default
 	}
 
-	cli := new(Firecracker)
+	cli := new(FirecrackerAPI)
 	cli.Transport = transport
 
 	cli.Operations = operations.New(transport, formats)
@@ -114,15 +113,15 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 	return cfg
 }
 
-// Firecracker is a client for firecracker
-type Firecracker struct {
+// FirecrackerAPI is a client for firecracker API
+type FirecrackerAPI struct {
 	Operations operations.ClientIface
 
 	Transport runtime.ClientTransport
 }
 
 // SetTransport changes the transport on the client and all its subresources
-func (c *Firecracker) SetTransport(transport runtime.ClientTransport) {
+func (c *FirecrackerAPI) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
 
 	c.Operations = operations.NewClient(transport, nil)

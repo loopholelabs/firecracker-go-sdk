@@ -19,14 +19,14 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+	"github.com/firecracker-microvm/firecracker-go-sdk/client/models"
 )
 
 // PatchMmdsReader is a Reader for the PatchMmds structure.
@@ -66,15 +66,50 @@ func NewPatchMmdsNoContent() *PatchMmdsNoContent {
 	return &PatchMmdsNoContent{}
 }
 
-/*PatchMmdsNoContent handles this case with default header values.
+/*
+PatchMmdsNoContent describes a response with status code 204, with default header values.
 
 MMDS data store updated.
 */
 type PatchMmdsNoContent struct {
 }
 
+// IsSuccess returns true when this patch mmds no content response has a 2xx status code
+func (o *PatchMmdsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this patch mmds no content response has a 3xx status code
+func (o *PatchMmdsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this patch mmds no content response has a 4xx status code
+func (o *PatchMmdsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this patch mmds no content response has a 5xx status code
+func (o *PatchMmdsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this patch mmds no content response a status code equal to that given
+func (o *PatchMmdsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the patch mmds no content response
+func (o *PatchMmdsNoContent) Code() int {
+	return 204
+}
+
 func (o *PatchMmdsNoContent) Error() string {
-	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsNoContent ", 204)
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsNoContent", 204)
+}
+
+func (o *PatchMmdsNoContent) String() string {
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsNoContent", 204)
 }
 
 func (o *PatchMmdsNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -87,7 +122,8 @@ func NewPatchMmdsBadRequest() *PatchMmdsBadRequest {
 	return &PatchMmdsBadRequest{}
 }
 
-/*PatchMmdsBadRequest handles this case with default header values.
+/*
+PatchMmdsBadRequest describes a response with status code 400, with default header values.
 
 MMDS data store cannot be updated due to bad input.
 */
@@ -95,8 +131,44 @@ type PatchMmdsBadRequest struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this patch mmds bad request response has a 2xx status code
+func (o *PatchMmdsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this patch mmds bad request response has a 3xx status code
+func (o *PatchMmdsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this patch mmds bad request response has a 4xx status code
+func (o *PatchMmdsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this patch mmds bad request response has a 5xx status code
+func (o *PatchMmdsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this patch mmds bad request response a status code equal to that given
+func (o *PatchMmdsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the patch mmds bad request response
+func (o *PatchMmdsBadRequest) Code() int {
+	return 400
+}
+
 func (o *PatchMmdsBadRequest) Error() string {
-	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsBadRequest  %+v", 400, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsBadRequest %s", 400, payload)
+}
+
+func (o *PatchMmdsBadRequest) String() string {
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmdsBadRequest %s", 400, payload)
 }
 
 func (o *PatchMmdsBadRequest) GetPayload() *models.Error {
@@ -122,7 +194,8 @@ func NewPatchMmdsDefault(code int) *PatchMmdsDefault {
 	}
 }
 
-/*PatchMmdsDefault handles this case with default header values.
+/*
+PatchMmdsDefault describes a response with status code -1, with default header values.
 
 Internal server error
 */
@@ -132,13 +205,44 @@ type PatchMmdsDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this patch mmds default response has a 2xx status code
+func (o *PatchMmdsDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this patch mmds default response has a 3xx status code
+func (o *PatchMmdsDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this patch mmds default response has a 4xx status code
+func (o *PatchMmdsDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this patch mmds default response has a 5xx status code
+func (o *PatchMmdsDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this patch mmds default response a status code equal to that given
+func (o *PatchMmdsDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the patch mmds default response
 func (o *PatchMmdsDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *PatchMmdsDefault) Error() string {
-	return fmt.Sprintf("[PATCH /mmds][%d] patchMmds default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmds default %s", o._statusCode, payload)
+}
+
+func (o *PatchMmdsDefault) String() string {
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[PATCH /mmds][%d] patchMmds default %s", o._statusCode, payload)
 }
 
 func (o *PatchMmdsDefault) GetPayload() *models.Error {

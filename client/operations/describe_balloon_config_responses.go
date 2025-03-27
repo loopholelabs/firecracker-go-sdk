@@ -19,14 +19,14 @@ package operations
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+	"github.com/firecracker-microvm/firecracker-go-sdk/client/models"
 )
 
 // DescribeBalloonConfigReader is a Reader for the DescribeBalloonConfig structure.
@@ -66,7 +66,8 @@ func NewDescribeBalloonConfigOK() *DescribeBalloonConfigOK {
 	return &DescribeBalloonConfigOK{}
 }
 
-/*DescribeBalloonConfigOK handles this case with default header values.
+/*
+DescribeBalloonConfigOK describes a response with status code 200, with default header values.
 
 The balloon device configuration
 */
@@ -74,8 +75,44 @@ type DescribeBalloonConfigOK struct {
 	Payload *models.Balloon
 }
 
+// IsSuccess returns true when this describe balloon config o k response has a 2xx status code
+func (o *DescribeBalloonConfigOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this describe balloon config o k response has a 3xx status code
+func (o *DescribeBalloonConfigOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe balloon config o k response has a 4xx status code
+func (o *DescribeBalloonConfigOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this describe balloon config o k response has a 5xx status code
+func (o *DescribeBalloonConfigOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe balloon config o k response a status code equal to that given
+func (o *DescribeBalloonConfigOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the describe balloon config o k response
+func (o *DescribeBalloonConfigOK) Code() int {
+	return 200
+}
+
 func (o *DescribeBalloonConfigOK) Error() string {
-	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigOK  %+v", 200, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigOK %s", 200, payload)
+}
+
+func (o *DescribeBalloonConfigOK) String() string {
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigOK %s", 200, payload)
 }
 
 func (o *DescribeBalloonConfigOK) GetPayload() *models.Balloon {
@@ -99,7 +136,8 @@ func NewDescribeBalloonConfigBadRequest() *DescribeBalloonConfigBadRequest {
 	return &DescribeBalloonConfigBadRequest{}
 }
 
-/*DescribeBalloonConfigBadRequest handles this case with default header values.
+/*
+DescribeBalloonConfigBadRequest describes a response with status code 400, with default header values.
 
 Balloon device not configured.
 */
@@ -107,8 +145,44 @@ type DescribeBalloonConfigBadRequest struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe balloon config bad request response has a 2xx status code
+func (o *DescribeBalloonConfigBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this describe balloon config bad request response has a 3xx status code
+func (o *DescribeBalloonConfigBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this describe balloon config bad request response has a 4xx status code
+func (o *DescribeBalloonConfigBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this describe balloon config bad request response has a 5xx status code
+func (o *DescribeBalloonConfigBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this describe balloon config bad request response a status code equal to that given
+func (o *DescribeBalloonConfigBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the describe balloon config bad request response
+func (o *DescribeBalloonConfigBadRequest) Code() int {
+	return 400
+}
+
 func (o *DescribeBalloonConfigBadRequest) Error() string {
-	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigBadRequest  %+v", 400, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigBadRequest %s", 400, payload)
+}
+
+func (o *DescribeBalloonConfigBadRequest) String() string {
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfigBadRequest %s", 400, payload)
 }
 
 func (o *DescribeBalloonConfigBadRequest) GetPayload() *models.Error {
@@ -134,7 +208,8 @@ func NewDescribeBalloonConfigDefault(code int) *DescribeBalloonConfigDefault {
 	}
 }
 
-/*DescribeBalloonConfigDefault handles this case with default header values.
+/*
+DescribeBalloonConfigDefault describes a response with status code -1, with default header values.
 
 Internal Server Error
 */
@@ -144,13 +219,44 @@ type DescribeBalloonConfigDefault struct {
 	Payload *models.Error
 }
 
+// IsSuccess returns true when this describe balloon config default response has a 2xx status code
+func (o *DescribeBalloonConfigDefault) IsSuccess() bool {
+	return o._statusCode/100 == 2
+}
+
+// IsRedirect returns true when this describe balloon config default response has a 3xx status code
+func (o *DescribeBalloonConfigDefault) IsRedirect() bool {
+	return o._statusCode/100 == 3
+}
+
+// IsClientError returns true when this describe balloon config default response has a 4xx status code
+func (o *DescribeBalloonConfigDefault) IsClientError() bool {
+	return o._statusCode/100 == 4
+}
+
+// IsServerError returns true when this describe balloon config default response has a 5xx status code
+func (o *DescribeBalloonConfigDefault) IsServerError() bool {
+	return o._statusCode/100 == 5
+}
+
+// IsCode returns true when this describe balloon config default response a status code equal to that given
+func (o *DescribeBalloonConfigDefault) IsCode(code int) bool {
+	return o._statusCode == code
+}
+
 // Code gets the status code for the describe balloon config default response
 func (o *DescribeBalloonConfigDefault) Code() int {
 	return o._statusCode
 }
 
 func (o *DescribeBalloonConfigDefault) Error() string {
-	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfig default  %+v", o._statusCode, o.Payload)
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfig default %s", o._statusCode, payload)
+}
+
+func (o *DescribeBalloonConfigDefault) String() string {
+	payload, _ := json.Marshal(o.Payload)
+	return fmt.Sprintf("[GET /balloon][%d] describeBalloonConfig default %s", o._statusCode, payload)
 }
 
 func (o *DescribeBalloonConfigDefault) GetPayload() *models.Error {
