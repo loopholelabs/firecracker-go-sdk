@@ -1,4 +1,4 @@
-module github.com/firecracker-microvm/firecracker-go-sdk
+module github.com/loopholelabs/firecracker-go-sdk
 
 go 1.23.0
 
