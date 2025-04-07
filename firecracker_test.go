@@ -18,8 +18,8 @@ import (
 	"testing"
 	"time"
 
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
-	"github.com/firecracker-microvm/firecracker-go-sdk/fctesting"
+	models "github.com/loopholelabs/firecracker-go-sdk/client/models"
+	"github.com/loopholelabs/firecracker-go-sdk/fctesting"
 	"github.com/stretchr/testify/require"
 )
 

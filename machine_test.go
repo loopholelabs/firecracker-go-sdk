@@ -41,10 +41,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
 
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
-	ops "github.com/firecracker-microvm/firecracker-go-sdk/client/operations"
-	"github.com/firecracker-microvm/firecracker-go-sdk/fctesting"
-	"github.com/firecracker-microvm/firecracker-go-sdk/internal"
+	models "github.com/loopholelabs/firecracker-go-sdk/client/models"
+	ops "github.com/loopholelabs/firecracker-go-sdk/client/operations"
+	"github.com/loopholelabs/firecracker-go-sdk/fctesting"
+	"github.com/loopholelabs/firecracker-go-sdk/internal"
 )
 
 const (

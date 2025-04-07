@@ -28,7 +28,7 @@ import (
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+	"github.com/loopholelabs/firecracker-go-sdk/client/models"
 )
 
 // NewPutGuestVsockParams creates a new PutGuestVsockParams object,

@@ -244,6 +244,7 @@ func (b JailerCommandBuilder) WithNumaNode(node int) JailerCommandBuilder {
 //	b = b.WithCgroupArgs("cpu.shares=10")
 func (b JailerCommandBuilder) WithCgroupArgs(cgroupArgs ...string) JailerCommandBuilder {
 	b.cgroupArgs = cgroupArgs
+	fmt.Printf("### cgroupArgs %v\n", b.cgroupArgs)
 	return b
 }
 

@@ -26,7 +26,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+	"github.com/loopholelabs/firecracker-go-sdk/client/models"
 )
 
 // DescribeBalloonConfigReader is a Reader for the DescribeBalloonConfig structure.

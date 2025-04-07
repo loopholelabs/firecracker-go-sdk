@@ -19,7 +19,7 @@ package client
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"github.com/firecracker-microvm/firecracker-go-sdk/client/operations"
+	"github.com/loopholelabs/firecracker-go-sdk/client/operations"
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 
